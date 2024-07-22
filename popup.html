@@ -5,22 +5,63 @@
   <style>
     body {
       width: 200px;
-      font-family: Arial, sans-serif;
-      padding: 10px;
+      background-color: #f7fafc;
+      padding: 5px;
+      min-width: 250px;
+      margin: 0 10;
+	  border-radius: 20px;
     }
-    button {
+    .text-center {
+      text-align: center;
+    }
+    .flex {
+      display: flex;
+      flex-direction: column;
+    }
+    .mb-4 {
+      margin-bottom: 16px;
+    }
+    .text-lg {
+      font-size: 1.125rem;
+      font-weight: bold;
+    }
+    .text-sm {
+      font-size: 0.875rem;
+      color: #718096; 
+    }
+    .btn {
+      display: block;
       width: 100%;
-      padding: 10px;
-      margin: 5px 0;
-      font-size: 16px;
+      padding: 8px 16px; 
+      margin: 8px 0;
+      background-color: #e2e8f0; 
+	  border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
+    .btn:hover {
+      background-color: #cbd5e0;
+    }
+	.buttons {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+	}
   </style>
 </head>
 <body>
-  <h1>Epic Highlighter</h1>
-  <button id="prev-button">Previous</button>
-  <button id="next-button">Next</button>
-  <button id="auto-button">Toggle Auto</button>
+  <div class="text-center">
+    <h1 class="text-lg">Epic Highlighter</h1>
+    <p class="text-sm">A raccoon custom extension</p>
+  </div>
+  <div class="space-y-2">
+    <div class="buttons">
+		<button id="prev-button" class="btn">Previous</button>
+    	<button id="next-button" class="btn">Next</button>
+	</div>
+    <button id="auto-button" class="btn">Toggle Auto</button>
+  </div>
   <script src="js/popup.js"></script>
 </body>
 </html>
