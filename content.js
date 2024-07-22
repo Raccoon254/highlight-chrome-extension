@@ -1,47 +1,60 @@
+let currentIndex = 0;
+let epicGroups = [];
+
 // Function to highlight elements with the same data-epic value
 function highlightEpicElements() {
-  // Get all elements with the data-epic attribute
   const elements = document.querySelectorAll('[data-epic]');
-  
-  // Create a map to group elements by their data-epic value
-  const epicGroups = {};
+  const groupedElements = {};
 
   elements.forEach(el => {
     const epicValue = el.getAttribute('data-epic');
-    if (!epicGroups[epicValue]) {
-      epicGroups[epicValue] = [];
+    if (!groupedElements[epicValue]) {
+      groupedElements[epicValue] = [];
     }
-    epicGroups[epicValue].push(el);
+    groupedElements[epicValue].push(el);
   });
 
-  // Get all unique data-epic values sorted numerically or alphabetically
-  const epicValues = Object.keys(epicGroups).sort((a, b) => a - b);
-
-  // Function to highlight elements in sequence
-  function highlightNext(index) {
-    if (index >= epicValues.length) return;
-
-    const epicValue = epicValues[index];
-    const group = epicGroups[epicValue];
-
-    // Add highlight class to each element in the group
-    group.forEach(el => {
-      el.classList.add('epic-highlight');
-    });
-
-    // Remove highlight after 3 seconds
-    setTimeout(() => {
-      group.forEach(el => {
-        el.classList.remove('epic-highlight');
-      });
-      // Move to the next group
-      highlightNext(index + 1);
-    }, 3000);
-  }
-
-  // Start highlighting from the first group
-  highlightNext(0);
+  epicGroups = Object.values(groupedElements).sort((a, b) => a[0].getAttribute('data-epic') - b[0].getAttribute('data-epic'));
 }
 
-// Run the highlight function
+function highlightCurrentGroup() {
+  epicGroups.forEach((group, index) => {
+    group.forEach(el => {
+      if (index === currentIndex) {
+        el.classList.add('epic-highlight');
+      } else {
+        el.classList.remove('epic-highlight');
+      }
+    });
+  });
+}
+
+function nextHighlight() {
+  currentIndex = (currentIndex + 1) % epicGroups.length;
+  highlightCurrentGroup();
+}
+
+function prevHighlight() {
+  currentIndex = (currentIndex - 1 + epicGroups.length) % epicGroups.length;
+  highlightCurrentGroup();
+}
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'N' || event.key === 'n') {
+    nextHighlight();
+  } else if (event.key === 'P' || event.key === 'p') {
+    prevHighlight();
+  }
+});
+
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.action === 'next') {
+    nextHighlight();
+  } else if (message.action === 'prev') {
+    prevHighlight();
+  }
+});
+
+// Initial highlight setup
 highlightEpicElements();
+highlightCurrentGroup();
