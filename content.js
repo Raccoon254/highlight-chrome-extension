@@ -24,6 +24,11 @@ function highlightCurrentGroup() {
     group.forEach(el => {
       if (index === currentIndex) {
         el.classList.add('epic-highlight');
+
+        // Dynamically set border radius
+        const borderRadius = window.getComputedStyle(el).borderRadius;
+        const beforeElement = el.querySelector('::before');
+        el.style.setProperty('--highlight-border-radius', borderRadius);
       } else {
         el.classList.remove('epic-highlight');
       }

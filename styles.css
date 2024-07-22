@@ -5,14 +5,14 @@
 .epic-highlight::before {
   content: "";
   position: absolute;
-  top: -4px; /* Adjust to center the border around the element */
-  left: -4px; /* Adjust to center the border around the element */
-  width: calc(100% + 8px); /* Adjust to account for border width */
-  height: calc(100% + 8px); /* Adjust to account for border width */
-  border: 2px solid blue; /* Blue border */
-  box-shadow: 0 0 10px 5px rgba(0, 0, 255, 0.5); /* Blue glow effect */
-  pointer-events: none; /* Ensure the overlay does not block interactions */
-  z-index: 9999; /* Ensure the overlay is above other content */
+  top: -4px;
+  left: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  border: 1px solid blue;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 255, 0.5);
+  pointer-events: none;
+  z-index: 9999;
   box-sizing: border-box;
-  border-radius: 10px; /* Slight rounding of the corners */
+  border-radius: var(--highlight-border-radius, 0); /* Use dynamic border radius */
 }
