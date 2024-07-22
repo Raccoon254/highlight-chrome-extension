@@ -88,7 +88,10 @@ function createSvgAnimation(element) {
 	const style = window.getComputedStyle(element)
 
 	// Parse border-radius values
-	const borderRadii = style.borderRadius.split(' ').map((r) => parseFloat(r))
+	const borderRadii = style
+		.getPropertyValue('--highlight-border-radius')
+		.split(' ')
+		.map((r) => parseFloat(r) || 0)
 	const [topLeft, topRight, bottomRight, bottomLeft] =
 		borderRadii.length === 1
 			? [borderRadii[0], borderRadii[0], borderRadii[0], borderRadii[0]]
@@ -99,38 +102,46 @@ function createSvgAnimation(element) {
 	svg.setAttribute('width', rect.width + 8)
 	svg.setAttribute('height', rect.height + 8)
 	svg.style.position = 'absolute'
-	svg.style.top = '-4px'
-	svg.style.left = '-4px'
+	svg.style.top = '-5px'
+	svg.style.left = '-5px'
 	svg.style.overflow = 'visible'
 	svg.style.pointerEvents = 'none'
-	svg.style.zIndex = '9999'
+	svg.style.zIndex = '10000' // Set higher than the pseudo-element
 
 	// Create path
 	const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
 	const d = [
-		`M ${topLeft + 4} 4`,
-		`H ${rect.width - topRight + 4}`,
-		`Q ${rect.width + 4} 4, ${rect.width + 4} ${topRight + 4}`,
-		`V ${rect.height - bottomRight + 4}`,
-		`Q ${rect.width + 4} ${rect.height + 4}, ${rect.width - bottomRight + 4} ${rect.height + 4}`,
-		`H ${bottomLeft + 4}`,
-		`Q 4 ${rect.height + 4}, 4 ${rect.height - bottomLeft + 4}`,
-		`V ${topLeft + 4}`,
-		`Q 4 4, ${topLeft + 4} 4`,
-	].join(' ')
+        `M ${topLeft},0`,
+        `H ${rect.width + 8 - topRight}`,
+        `A ${topRight},${topRight} 0 0 1 ${rect.width + 8},${topRight}`,
+        `V ${rect.height + 8 - bottomRight}`,
+        `A ${bottomRight},${bottomRight} 0 0 1 ${rect.width + 8 - bottomRight},${rect.height + 8}`,
+        `H ${bottomLeft}`,
+        `A ${bottomLeft},${bottomLeft} 0 0 1 0,${rect.height + 8 - bottomLeft}`,
+        `V ${topLeft}`,
+        `A ${topLeft},${topLeft} 0 0 1 ${topLeft},0`,
+        'Z'
+    ].join(' ');
 
 	path.setAttribute('d', d)
 	path.setAttribute('fill', 'none')
 	path.setAttribute('stroke', 'blue')
-	path.setAttribute('stroke-width', '2')
+	path.setAttribute('stroke-width', '1')
 
-	// Create animation
+	// Calculate the total length of the path
+	const pathLength = path.getTotalLength()
+
+	// Set up the dash array and offset for animation
+	path.style.strokeDasharray = pathLength
+	path.style.strokeDashoffset = pathLength
+
+	// Create animation for stroke-dashoffset to animate from pathLength to 0 and back to pathLength
 	const animate = document.createElementNS('http://www.w3.org/2000/svg', 'animate')
-	animate.setAttribute('attributeName', 'stroke-dasharray')
-	animate.setAttribute('from', '0, 99999')
-	animate.setAttribute('to', '99999, 0')
-	animate.setAttribute('dur', '2s')
+	animate.setAttribute('attributeName', 'stroke-dashoffset')
+	animate.setAttribute('values', `${pathLength};0;${-pathLength}`) // Defines the sequence of values
+	animate.setAttribute('dur', '5s')
 	animate.setAttribute('repeatCount', 'indefinite')
+	animate.setAttribute('calcMode', 'linear') // Ensures smooth animation
 
 	path.appendChild(animate)
 	svg.appendChild(path)
