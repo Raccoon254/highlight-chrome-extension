@@ -28,7 +28,10 @@ function highlightCurrentGroup() {
         // Dynamically set border radius
         const borderRadius = window.getComputedStyle(el).borderRadius;
         const beforeElement = el.querySelector('::before');
-        el.style.setProperty('--highlight-border-radius', borderRadius);
+        //converts the border radius to a number
+        const borderRadiusNumber = parseInt(borderRadius.replace('px', ''));
+        let newBorderRadius = borderRadiusNumber + 2;
+        el.style.setProperty('--highlight-border-radius', `${newBorderRadius}px`);
       } else {
         el.classList.remove('epic-highlight');
       }
