@@ -9,8 +9,8 @@
   left: -4px;
   width: calc(100% + 8px);
   height: calc(100% + 8px);
-  border: 1px solid rgba(0, 0, 255, 0.1);
-  box-shadow: 0 0 10px 5px rgba(0, 0, 255, 0.3);
+  border: 1px solid rgba(0, 0, 255, 0.4);
+  box-shadow: 0 0 10px 5px rgba(0, 0, 255, 0.6);
   pointer-events: none;
   z-index: 9999;
   box-sizing: border-box;

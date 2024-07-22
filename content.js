@@ -127,6 +127,7 @@ function createSvgAnimation(element) {
 	path.setAttribute('fill', 'none')
 	path.setAttribute('stroke', 'blue')
 	path.setAttribute('stroke-width', '1')
+	path.setAttribute('stroke-linecap', 'round')
 
 	// Calculate the total length of the path
 	const pathLength = path.getTotalLength()
