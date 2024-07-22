@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Epic Highlighter</title>
+  <style>
+    body {
+      width: 200px;
+      font-family: Arial, sans-serif;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Epic Highlighter</h1>
+  <button id="highlight-button">Highlight Elements</button>
+  <script>
+    document.getElementById('highlight-button').addEventListener('click', () => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.scripting.executeScript({
+          target: { tabId: tabs[0].id },
+          function: highlightEpicElements
+        });
+      });
+    });
+
+    function highlightEpicElements() {
+      // Highlight logic here (same as in content.js)
+      const elements = document.querySelectorAll('[data-epic]');
+      const epicGroups = {};
+
+      elements.forEach(el => {
+        const epicValue = el.getAttribute('data-epic');
+        if (!epicGroups[epicValue]) {
+          epicGroups[epicValue] = [];
+        }
+        epicGroups[epicValue].push(el);
+      });
+
+      Object.values(epicGroups).forEach(group => {
+        group.forEach(el => {
+          el.classList.add('epic-highlight');
+        });
+      });
+    }
+  </script>
+</body>
+</html>

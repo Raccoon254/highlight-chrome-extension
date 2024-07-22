@@ -1,41 +1,18 @@
 .epic-highlight {
+  position: relative;
+}
+
+.epic-highlight::before {
+  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  box-shadow: 0 0 0 2px transparent;
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-.epic-highlight.active {
-  box-shadow: 0 0 0 2px #ff0000;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.5;
-  }
-}
-
-#epic-control-panel {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px;
-  border-radius: 5px;
-  z-index: 9999;
-}
-
-#epic-control-panel button {
-  margin: 0 5px;
+  top: -4px; /* Adjust to center the border around the element */
+  left: -4px; /* Adjust to center the border around the element */
+  width: calc(100% + 8px); /* Adjust to account for border width */
+  height: calc(100% + 8px); /* Adjust to account for border width */
+  border: 2px solid blue; /* Blue border */
+  box-shadow: 0 0 10px 5px rgba(0, 0, 255, 0.5); /* Blue glow effect */
+  pointer-events: none; /* Ensure the overlay does not block interactions */
+  z-index: 9999; /* Ensure the overlay is above other content */
+  box-sizing: border-box;
+  border-radius: 10px; /* Slight rounding of the corners */
 }
