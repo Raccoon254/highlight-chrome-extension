@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "Epic Highlighter",
+  "version": "1.0",
+  "description": "Highlights elements with data-epic attributes",
+  "permissions": [
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}
