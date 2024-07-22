@@ -1,5 +1,7 @@
 let currentIndex = 0;
 let epicGroups = [];
+let autoMode = false;
+let autoInterval;
 
 // Function to highlight elements with the same data-epic value
 function highlightEpicElements() {
@@ -39,6 +41,15 @@ function prevHighlight() {
   highlightCurrentGroup();
 }
 
+function toggleAutoMode() {
+  autoMode = !autoMode;
+  if (autoMode) {
+    autoInterval = setInterval(nextHighlight, 3000);
+  } else {
+    clearInterval(autoInterval);
+  }
+}
+
 document.addEventListener('keydown', (event) => {
   if (event.key === 'N' || event.key === 'n') {
     nextHighlight();
@@ -52,6 +63,8 @@ chrome.runtime.onMessage.addListener((message) => {
     nextHighlight();
   } else if (message.action === 'prev') {
     prevHighlight();
+  } else if (message.action === 'toggleAuto') {
+    toggleAutoMode();
   }
 });
 
