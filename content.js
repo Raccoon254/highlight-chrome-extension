@@ -25,12 +25,10 @@ function highlightCurrentGroup() {
       if (index === currentIndex) {
         el.classList.add('epic-highlight');
 
-        // Dynamically set border radius
-        const borderRadius = window.getComputedStyle(el).borderRadius;
         const beforeElement = el.querySelector('::before');
-        //converts the border radius to a number
-        const borderRadiusNumber = parseInt(borderRadius.replace('px', ''));
-        let newBorderRadius = borderRadiusNumber + 2;
+        // Dynamically set and adjust border radius
+        const borderRadius = parseInt(window.getComputedStyle(el).borderRadius.replace('px', ''));
+        const newBorderRadius = borderRadius + 2 === 2 ? 0 : borderRadius + 2;
         el.style.setProperty('--highlight-border-radius', `${newBorderRadius}px`);
       } else {
         el.classList.remove('epic-highlight');
